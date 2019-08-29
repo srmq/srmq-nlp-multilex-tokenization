@@ -8,7 +8,7 @@
 	<packaging>bundle</packaging>
 
 	<name>srmq-nlp-multilex-tokenization</name>
-	<url>http://maven.apache.org</url>
+	<url>https://github.com/srmq/srmq-nlp-multilex-tokenization</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -22,6 +22,35 @@
 			<comments>A free, strong copyleft license for software and other kinds of works</comments>
 		</license>
 	</licenses>
+
+	<repositories>
+		<repository>
+			<releases>
+				<enabled>false</enabled>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>fail</checksumPolicy>
+			</snapshots>
+			<id>srmq-maven-repo</id>
+			<name>SRMQ's development repository</name>
+			<url>https://srmq-maven-repo.appspot.com</url>
+			<layout>default</layout>
+		</repository>
+	</repositories>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<uniqueVersion>false</uniqueVersion>
+			<id>srmq-maven-repo</id>
+			<name>SRMQ's development repository</name>
+			<url>https://srmq-maven-repo.appspot.com</url>
+			<layout>default</layout>
+		</snapshotRepository>
+	</distributionManagement>
 
 	<developers>
 		<developer>
