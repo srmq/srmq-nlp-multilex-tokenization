@@ -4,10 +4,13 @@ import java.io.IOException;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.BundleException;
 import org.osgi.framework.Constants;
 import org.osgi.framework.ServiceEvent;
 import org.osgi.framework.ServiceListener;
 import org.osgi.framework.ServiceReference;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import br.cin.ufpe.nlp.api.tokenization.Tokenizer;
 import br.cin.ufpe.nlp.api.tokenization.TokenizerFactory;
@@ -17,6 +20,7 @@ public class Activator implements BundleActivator{
 	private String inputPath;
 	private String outputPath;
 	private String lexLevels;
+	private static Logger logger = LoggerFactory.getLogger(Activator.class);
 	
 	private class MyServiceListener implements ServiceListener {
 		private boolean firstTime = true;
@@ -39,6 +43,13 @@ public class Activator implements BundleActivator{
 					} catch (IOException e) {
 						e.printStackTrace();
 						throw new IllegalStateException(e);
+					}
+					logger.info("ALL DONE, now trying to shutdown gracefully");
+					try {
+						context.getBundle(0).stop();
+					} catch (BundleException e) {
+						e.printStackTrace();
+						throw new IllegalStateException("Error while trying to shutdown OSGI after all done", e);
 					}
 				}
 			}
@@ -75,6 +86,13 @@ public class Activator implements BundleActivator{
 			@SuppressWarnings("unchecked")
 			TokenizerFactory<Tokenizer<AnnotatedToken>> tokenizerFactory = (TokenizerFactory<Tokenizer<AnnotatedToken>>) context.getService(services[0]);
 			doStuff(tokenizerFactory);
+			logger.info("ALL DONE, now trying to shutdown gracefully");
+			try {
+				context.getBundle(0).stop();
+			} catch (BundleException e) {
+				e.printStackTrace();
+				throw new IllegalStateException("Error while trying to shutdown OSGI after all done", e);
+			}
 		}
 		
 	}
